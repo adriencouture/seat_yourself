@@ -1,41 +1,38 @@
 <div class="container">
-  <div class="row">
+<div class="row">
 
-    <div class="col-xs-4">
-        <div class="panel panel-default">
-          <div class="panel-body">
-              <%= @user.name %></BR>
-              <%= @user.email %>
-          </div>
+    <div class="col-xs-3">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2 class="panel-title">Profile Information</h2><br/>
+            <%= @user.name %></BR>
+            <%= @user.email %>
+        </div>
       </div>
     </div>
+
+  <div class="col-xs-5">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 class="panel-title">Reservations</h2><br/>
+          <% @user.reservations.order(created_at: :desc).each do |reservation| %>
+            <ul>
+              <li><strong><%= reservation.restaurant.name %></strong></li>
+                  Booking: <%= reservation.formatted_time %></br>
+                  Party Size: <%= reservation.party_size %></br>
+            </ul>
+          <% end %>
+      </div>
+    </div>
+  </div>
 
   <div class="col-xs-4">
     <div class="panel panel-default">
       <div class="panel-body">
-        <% @user.reservations.order(created_at: :desc).each do |x|  %>
-             <ul>
-               <li>Restaurant name: <%= x.restaurant.name %></li>
-                   Time booked: <%= x.formatted_time %></br>
-                   Party Size: <%= x.party_size %></br>
-             </ul>
-             <% end %>
-
-
+        <h2 class="panel-title">Restaurants</h2><br/>
       </div>
-  </div>
-</div>
-
-
-<div class="col-xs-4">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      RESTAURANTS
     </div>
-</div>
-</div>
-
-
-
   </div>
+
+</div>
 </div>

@@ -1,6 +1,7 @@
 class ReservationsController < ApplicationController
-
+  before_filter :ensure_logged_in, only: [:create, :destroy]
   before_filter :load_parent
+
   def index
     @reservations = Reservation.all
   end
@@ -13,11 +14,10 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new(reservation_params)
     @reservation.user = current_user
     @reservation.restaurant_id = @restaurant.id
+
     if @reservation.save
       redirect_to restaurant_path(@restaurant), notice: "Your reservation was created successfully"
-
     else
-
       render 'restaurants/show'
     end
   end
@@ -25,12 +25,10 @@ class ReservationsController < ApplicationController
 
   def show
     @reservation = Reservation.find(params[:id])
-
   end
 
   def edit
     @reservation = Reservation.find(params[:id])
-
   end
 
   def update
@@ -52,11 +50,9 @@ class ReservationsController < ApplicationController
 
   def reservation_params
     params.require(:reservation).permit(:time, :party_size)
-
   end
 
   def load_parent
-
     @restaurant = Restaurant.find(params[:restaurant_id])
   end
 
