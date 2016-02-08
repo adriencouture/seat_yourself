@@ -15,7 +15,11 @@ class ReservationsController < ApplicationController
     @reservation.user = current_user
     @reservation.restaurant_id = @restaurant.id
 
-    if @reservation.save
+    if @restaurant.available?(@reservation.party_size, @reservation.time)
+      @restaurant.capacity = @restaurant.capacity -= @reservation.party_size
+      @restaurant.save 
+
+      @reservation.save
       redirect_to restaurant_path(@restaurant), notice: "Your reservation was created successfully"
     else
       render 'restaurants/show'

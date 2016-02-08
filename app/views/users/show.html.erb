@@ -3,8 +3,10 @@
 
     <div class="col-xs-3">
       <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="panel-title">Profile Information</h2>
+          </div>
         <div class="panel-body">
-          <h2 class="panel-title">Profile Information</h2><br/>
             <%= @user.name %></BR>
             <%= @user.email %>
         </div>
@@ -13,8 +15,10 @@
 
   <div class="col-xs-5">
     <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">Reservations</h2>
+      </div>
       <div class="panel-body">
-        <h2 class="panel-title">Reservations</h2><br/>
           <% @user.reservations.order(created_at: :desc).each do |reservation| %>
             <ul>
               <li><strong><%= reservation.restaurant.name %></strong></li>
@@ -28,9 +32,18 @@
 
   <div class="col-xs-4">
     <div class="panel panel-default">
-      <div class="panel-body">
-        <h2 class="panel-title">Restaurants</h2><br/>
+      <div class="panel-heading">
+        <h2 class="panel-title">Reviews</h2>
       </div>
+      <div class="panel-body">
+         <% @user.reviews.order(created_at: :desc).each do |review| %>
+       <ul>
+         <li><em>Review for restaurant: </em><%= review.restaurant.name %></li>
+           <em>Review comment: </em> <%= review.comment %><br/>
+           <%= link_to 'edit comment', edit_restaurant_review_path(review.restaurant_id, review.id) %>
+       </ul>
+       <% end %>
+     </div>
     </div>
   </div>
 

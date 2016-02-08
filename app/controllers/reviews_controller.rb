@@ -1,10 +1,13 @@
 class ReviewsController < ApplicationController
-
-before_filter :ensure_logged_in, only: [:create, :destroy]
-before_filter :load_parent
+  before_filter :ensure_logged_in, only: [:create, :destroy]
+  before_filter :load_parent
 
   def show
     @review = Review.find(params[:id])
+  end
+
+  def new
+    @review = Review.new
   end
 
   def create
@@ -15,7 +18,22 @@ before_filter :load_parent
       redirect_to restaurants_path, notice: 'Review created successfully'
     else
       render 'restaurant_path(@restaurant)'
+      # render 'restaurant_review_path'
     end
+  end
+
+  def edit
+    @review = Review.find(params[:id])
+  end
+
+  def update
+    @review = Review.find(params[:id])
+      if @review.update_attributes(review_params)
+        redirect_to restaurant_path(@restaurant)
+      else
+        #when we add ui then put in flash notice
+        render 'edit'
+      end
   end
 
   def destroy
